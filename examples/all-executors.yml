@@ -5,11 +5,11 @@ services:
   prepare: 
   - command: python -m SimpleHTTPServer 8000
     background: true
-  - command: sleep 300 && exit 1  # this will make it interrupt in case it hangs
+  - command: sleep 300 && exit 1   this will make it interrupt in case it hangs
     background: true
-  check:
-  - command: ps auxff > processlist.txt
-    cwd: artifacts-dir
+#  check:
+#  - command: ps auxff > processlist.txt
+#    cwd: artifacts-dir
 
 reporting:
 - module: passfail
@@ -17,88 +17,6 @@ reporting:
   - fail>0 for 1s
 
 execution:
-
-- executor: jmeter
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    requests:
-      - url: http://localhost:8000/
-        label: jmeter
-
-- executor: gatling
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    requests:
-      - url: http://localhost:8000/
-        label: gatling
-
-- executor: pbench
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    requests:
-      - url: http://localhost:8000/
-        label: pbench
-
-- executor: grinder
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    requests:
-      - url: http://localhost:8000/
-        label: grinder
-
-- executor: siege
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    requests:
-      - url: http://localhost:8000/?tool=siege
-        label: siege
-
-- executor: locust
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    requests:
-      - url: http://localhost:8000/
-        label: locust
-
-#- executor: tsung
-#  concurrency: 1
-#  hold-for: 10s
-#  scenario:
-#    requests:
-#      - url: http://localhost:8000/
-#        label: tsung
-
-#- executor: ab
-#  concurrency: 1
-#  hold-for: 10s
-#  iterations: 10
-#  scenario:
-#    requests:
-#      - url: http://localhost:8000/
-#        label: ab
-
-- executor: selenium
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    browser: Chrome
-    requests:
-      - url: http://localhost:8000/
-        label: selenium-chrome
-
 - executor: selenium
   concurrency: 1
   hold-for: 10s
@@ -109,81 +27,13 @@ execution:
       - url: http://localhost:8000/
         label: selenium-firefox
 
-- executor: selenium
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  runner: junit
-  scenario:
-    script: BOOTH1/Blazedemo.java
+---
+services:
+- screenshoter
 
-- executor: selenium
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  runner: testng
-  scenario:
-    script: selenium/TestNGExample.java
-
-- executor: selenium
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: selenium/rspec_example.rb
-
-- executor: selenium
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: selenium/mocha_example.js
-
-- executor: junit
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: functional/JUnitTest.java
-
-- executor: testng
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: functional/TestNGTest.java
-
-- executor: rspec
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: functional/rspec_example.rb
-
-- executor: mocha
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: functional/mocha_example.js
-
-- executor: nose
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: functional/test_nose.py
-
-#- executor: nunit
-#  concurrency: 1
-#  hold-for: 10s
-#  iterations: 10
-#  scenario:
-#    script: selenium/nunit/AssemblyDemo/NUnitSuite.dll
-
-- executor: pytest
-  concurrency: 1
-  hold-for: 10s
-  iterations: 10
-  scenario:
-    script: selenium/pytest/test_simple.py
+modules:
+  screenshoter:
+    crop-top: 0
+    crop-left: 0
+    crop-bottom: 0
+    crop-right: 0
